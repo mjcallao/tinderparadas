@@ -21,8 +21,8 @@ $parametro = $datos[2];
 
 // Define que controlador cargar
 // Define la ruta donde estan los controladores
-$path = CONTROLADORES . $controlador . ".php";
-// echo "</br> Path: " . $path . "</br>";
+$path = CONTROLLERS . $controlador . ".php";
+
 // restricciones
 
 if(file_exists($path)){
