@@ -138,18 +138,6 @@
                 <!-- ============================================================== -->
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Google map</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Google map</li>
-                        </ol>
-                    </div>
-                    <div class="col-md-6 col-4 align-self-center">
-                        <a href="https://wrappixel.com/templates/monsteradmin/" class="btn pull-right hidden-sm-down btn-success"> Upgrade to Pro</a>
-                    </div>
-                </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
@@ -160,8 +148,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-block">
-                                <h4 class="card-title">Simple Basic Map</h4>
-                                <div id="gmaps-simple" class="gmaps"></div>
+                                <h4 class="card-title">Puntos de espera</h4>
+                              <body>
+                                <div id="map"></div>
+
+                                <!-- Key de API de Google -->
+                                <!-- AIzaSyDr20kJcN88Hdj9bKSePRxN5EbZ-aNPrJI -->
                             </div>
                         </div>
                     </div>
@@ -207,10 +199,20 @@
     <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
+
+
+    <script src="js/cargar-puntos.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDr20kJcN88Hdj9bKSePRxN5EbZ-aNPrJI&callback=initMap" async defer></script>
+    <link rel="stylesheet" href="css/cargar-puntos.css">
+
+
+
     <!-- google maps api -->
+<!-- 
     <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
     <script src="../assets/plugins/gmaps/gmaps.min.js"></script>
-    <script src="../assets/plugins/gmaps/jquery.gmaps.js"></script>
+    <script src="../assets/plugins/gmaps/jquery.gmaps.js"></script> 
+-->
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
