@@ -1,7 +1,8 @@
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
-  height: 400px;
+  display: inline-block;
+  height: 500px;
   width: 60%;
 }
 /* Optional: Makes the sample page fill the window. */
@@ -9,4 +10,20 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.card-title{
+  width: 60%;
+  text-align: center;
+}
+
+#agregarPunto{
+  right: 200px;
+  text-align: center;
+}
+
+#controlador-botones{
+  display: inline-block;
+  height: 500px;
+  width: 39%; 
 }
