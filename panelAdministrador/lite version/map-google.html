@@ -105,7 +105,7 @@
                         <div class="card">
                             <div class="card-block">
                                 <h4 class="card-title">
-                                    <button class="btn btn-primary" id="agregarPunto">Agregar nuevo punto</button>
+                                    <button class="btn btn-primary" id="agregarPunto">Nuevo punto</button>
                                 </h4>
                                 <div id="map"></div>
 
@@ -114,10 +114,11 @@
 
                                         <form action="">
 
-                                            <div class="form-group">
-                                                <label for="">Nombre:</label>
+                                            <div class="form-group" id="cajaNombreYTipo">
+                                                <label for="">Nombre</label>
+                                                <span id="checkActiva"><input type="checkbox">Activa</span> 
                                                 <input type="text" class="form-control">
-                                                <label for="">Tipo:</label>
+                                                <label for="">Tipo</label>
                                                 <select class="form-control">
                                             </div>
 
@@ -147,18 +148,24 @@
 
                                                 <div class="form-group" id="horarios">
                                                     <label for="">Hora Inicio:</label>
-                                                    <input type="time"><br><br>
+                                                    <input type="time" class="form-control"><br><br>
                                                     <label for="">Hora Fin:</label>                                                    
-                                                    <input type="time">
+                                                    <input type="time" class="form-control">
                                                 </div>
                                             </div>
                                                 
-                                                <div class="form-group">
+                                                <div class="form-group" id="caja_comentario">
                                                     <label for="">Comentario:</label><br>
                                                     <textarea class="form-control"></textarea>
                                                 </div>
-                                                
+                                            
+                                            <div class="form-group" id="cajaDivUsuariosMinimos">
+                                                <label id="labelCantMinima" for="">Cant. Min:</label>
+                                                <input id="inputCantMinima" type="number" class="form-control">                                                
+                                            </div>
                                         </form>
+
+                                        <button class="btn btn-danger" id="botonCargarModificar">Cargar</button>
 
                                     </div>
                                 </div>

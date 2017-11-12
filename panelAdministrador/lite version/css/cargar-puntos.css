@@ -1,3 +1,14 @@
+/* Para sacarle los cositos al input number */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+
+
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
@@ -40,6 +51,10 @@ html, body {
   width: 80%;
 }
 
+#cajaNombreYTipo{
+  margin-bottom: 10px;
+}
+
 #dias_semana{
   display: inline-block;
   width: 50%;
@@ -52,3 +67,28 @@ html, body {
   height: 50px;
   position: absolute;
 }
+
+#caja_comentario{
+  margin-bottom: 10px;
+}
+
+#cajaDivUsuariosMinimos{
+  height: 20px;
+  position: absolute;
+  right: 0px;
+}
+
+#checkActiva{
+  position: absolute;
+  right: 0px;
+}
+
+#labelCantMinima{
+  display: inline-block;
+}
+
+#inputCantMinima{
+  display: inline-block;
+  width: 50px;
+}
+
