@@ -1,45 +1,3 @@
-/*function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: new google.maps.LatLng(-33.863276, 151.207977),
-          zoom: 12
-        });
-        var infoWindow = new google.maps.InfoWindow;
-
-          // Change this depending on the name of your PHP or XML file
-          downloadUrl('https://storage.googleapis.com/mapsdevsite/json/mapmarkers2.xml', function(data) {
-            var xml = data.responseXML;
-            var markers = xml.documentElement.getElementsByTagName('marker');
-            Array.prototype.forEach.call(markers, function(markerElem) {
-              var name = markerElem.getAttribute('name');
-              var address = markerElem.getAttribute('address');
-              var type = markerElem.getAttribute('type');
-              var point = new google.maps.LatLng(
-                  parseFloat(markerElem.getAttribute('lat')),
-                  parseFloat(markerElem.getAttribute('lng')));
-
-              var infowincontent = document.createElement('div');
-              var strong = document.createElement('strong');
-              strong.textContent = name
-              infowincontent.appendChild(strong);
-              infowincontent.appendChild(document.createElement('br'));
-
-              var text = document.createElement('text');
-              text.textContent = address
-              infowincontent.appendChild(text);
-              var icon = customLabel[type] || {};
-              var marker = new google.maps.Marker({
-                map: map,
-                position: point,
-                label: icon.label
-              });
-              marker.addListener('click', function() {
-                infoWindow.setContent(infowincontent);
-                infoWindow.open(map, marker);
-              });
-            });
-          });
-        }*/
-
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  // Especifica el lugar donde inicia el Google Maps, deberia ser la ubicacion del usuario.
@@ -69,9 +27,9 @@ function initMap() {
 
     // Array hardcodeado de puntos.	Tendria que traerlos de la BDD.
 	var locations = [	
-	{id:"loc1", lat: -34.789288, lng: -58.523531, tipo: "Banco", nombre:"El banco de carlitos"},
-	{id:"loc2", lat: -34.781, lng: -58.52359, tipo:"Banco", nombre:"Banco Ciudad"},
-	{id:"loc3", lat: -34.7899, lng: -58.52359, tipo:"Plaza", nombre:"Plaza 25 de mayo"}
+	{id:"loc1", lat: -34.789288, lng: -58.523531, radio: 15, tipo: "Banco", nombre:"El banco de carlitos"},
+	{id:"loc2", lat: -34.781, lng: -58.52359, radio: 15, tipo:"Banco", nombre:"Banco Ciudad"},
+	{id:"loc3", lat: -34.7899, lng: -58.52359, radio: 15, tipo:"Plaza", nombre:"Plaza 25 de mayo"}
 	]
 
 	// Creo un array vacio que voy a llenar con las ubicaciones ya formateadas.
@@ -80,33 +38,78 @@ function initMap() {
 	// Crea ventana customizable de Google para setearsela a cada ubicacion.
 	var infoWindow = new google.maps.InfoWindow;
 
-	// Funcion que recorre la lista de locaciones y las pone en el mapa. Muy customizable.
+	// Funcion que recorre la lista de locaciones. Muy customizable.
 	locations.forEach(function(location){
-		console.log(location);
-		var point = new google.maps.LatLng(
+
+		// Seteo latitud y longitud en la variable point
+		var centro = new google.maps.LatLng(
             location.lat, location.lng
             );
+
+		// Creo el cartelito arriba de cada punto y le pongo el nombre.
 		var infowincontent = document.createElement('div');
 		var strong = document.createElement('strong');
 		strong.textContent = location.nombre;
 		infowincontent.appendChild(strong);
 
+		var cityCircle = new google.maps.Circle({
+      	  strokeColor: '#FF0000',
+	      strokeOpacity: 0.8,
+	      strokeWeight: 2,
+	      fillColor: '#FF0000',
+	      fillOpacity: 0.35,
+	      map: map,
+	      center: centro,
+	      radius: location.radio
+	    });
+
+
+		// Agrego el objeto al array makers para clusterizarlo despues
+		markers.push(cityCircle);
+
+		// Agrego al punto una accion.
+		cityCircle.addListener('click', function() {
+		infoWindow.setContent(infowincontent);
+		infoWindow.open(map, cityCircle);
+		});
+
+	});
+
+
+		/*
+
+		// Seteo latitud y longitud en la variable point
+		var point = new google.maps.LatLng(
+            location.lat, location.lng
+            );
+
+		// Creo el cartelito arriba de cada punto y le pongo el nombre.
+		var infowincontent = document.createElement('div');
+		var strong = document.createElement('strong');
+		strong.textContent = location.nombre;
+		infowincontent.appendChild(strong);
+
+		// Instancio un nuevo objeto de punto y lo pongo en el mapa.
 		var marker = new google.maps.Marker({
 		map: map,
 		position: point
 		});
 
+		// Agrego el objeto al array makers para clusterizarlo despues
 		markers.push(marker);
 
+		// Agrego al punto una accion.
 		marker.addListener('click', function() {
 		infoWindow.setContent(infowincontent);
 		infoWindow.open(map, marker);
 		});
 	});
 
-	// Crea una clusterizacion de datos y le setea la forma.
+	// Crea una clusterizacion de datos y le setea la imagen que va a tener.
 	var markerCluster = new MarkerClusterer(map, markers,
 	    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+	*/
 
 }
 
