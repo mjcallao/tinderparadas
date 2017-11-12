@@ -74,16 +74,11 @@ function initMap() {
 	{id:"loc3", lat: -34.7899, lng: -58.52359, tipo:"Plaza", nombre:"Plaza 25 de mayo"}
 	]
 
-	// Recorre array de marcadores y los setea en el mapa.
-	/*
-	var markers = locations.map(function(location) {
-	  return new google.maps.Marker({
-	    position: location    
-	  });
-	});
-	*/
-	var infoWindow = new google.maps.InfoWindow;
+	// Creo un array vacio que voy a llenar con las ubicaciones ya formateadas.
+	var markers = [];
 
+	// Crea ventana customizable de Google para setearsela a cada ubicacion.
+	var infoWindow = new google.maps.InfoWindow;
 
 	// Funcion que recorre la lista de locaciones y las pone en el mapa. Muy customizable.
 	locations.forEach(function(location){
@@ -101,17 +96,17 @@ function initMap() {
 		position: point
 		});
 
+		markers.push(marker);
+
 		marker.addListener('click', function() {
 		infoWindow.setContent(infowincontent);
 		infoWindow.open(map, marker);
 		});
 	});
 
-	// Trae la forma que va a tener el icono de cluster.
-	/*
+	// Crea una clusterizacion de datos y le setea la forma.
 	var markerCluster = new MarkerClusterer(map, markers,
 	    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-	*/
 
 }
 
