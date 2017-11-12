@@ -108,7 +108,60 @@
                                     <button class="btn btn-primary" id="agregarPunto">Agregar nuevo punto</button>
                                 </h4>
                                 <div id="map"></div>
-                                <div id="controlador-botones"></div>
+
+                                <div id="controlador-botones">
+                                    <div id="controlador-botones-interior">
+
+                                        <form action="">
+
+                                            <div class="form-group">
+                                                <label for="">Nombre:</label>
+                                                <input type="text" class="form-control">
+                                                <label for="">Tipo:</label>
+                                                <select class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                    <option disabled selected value></option>
+                                                    <option value="banco">Parada</option>
+                                                    <option value="banco">Banco</option>
+                                                    <option value="banco">Comercio</option>
+                                                    <option value="banco">Salud</option>
+                                                    <option value="banco">Peaje</option>
+                                                    <option value="banco">Restaurante</option>
+                                                    <option value="banco">Otros</option>
+                                                </select>
+                                            </div>
+                                                
+                                            <div id="cajaDivDiasHorarios">
+
+                                                <div class="form-group" id="dias_semana">
+                                                    <input type="checkbox" name="dia_semana" value="Lunes">Lunes<br>
+                                                    <input type="checkbox" name="dia_semana" value="Martes">Martes<br>
+                                                    <input type="checkbox" name="dia_semana" value="Miercoles">Miercoles<br>
+                                                    <input type="checkbox" name="dia_semana" value="Jueves">Jueves<br>
+                                                    <input type="checkbox" name="dia_semana" value="Viernes">Viernes<br>
+                                                    <input type="checkbox" name="dia_semana" value="Sabado">Sabado<br>
+                                                    <input type="checkbox" name="dia_semana" value="Domingo">Domingo<br>
+                                                </div>
+
+                                                <div class="form-group" id="horarios">
+                                                    <label for="">Hora Inicio:</label>
+                                                    <input type="time"><br><br>
+                                                    <label for="">Hora Fin:</label>                                                    
+                                                    <input type="time">
+                                                </div>
+                                            </div>
+                                                
+                                                <div class="form-group">
+                                                    <label for="">Comentario:</label><br>
+                                                    <textarea class="form-control"></textarea>
+                                                </div>
+                                                
+                                        </form>
+
+                                    </div>
+                                </div>
 
                                 <!-- Key de API de Google -->
                                 <!-- AIzaSyDr20kJcN88Hdj9bKSePRxN5EbZ-aNPrJI -->

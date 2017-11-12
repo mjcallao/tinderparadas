@@ -46,12 +46,6 @@ function initMap() {
             location.lat, location.lng
             );
 
-		// Creo el cartelito arriba de cada punto y le pongo el nombre.
-		var infowincontent = document.createElement('div');
-		var strong = document.createElement('strong');
-		strong.textContent = location.nombre;
-		infowincontent.appendChild(strong);
-
 		var cityCircle = new google.maps.Circle({
       	  strokeColor: '#FF0000',
 	      strokeOpacity: 0.8,
@@ -63,18 +57,14 @@ function initMap() {
 	      radius: location.radio
 	    });
 
-
-		// Agrego el objeto al array makers para clusterizarlo despues
-		markers.push(cityCircle);
-
 		// Agrego al punto una accion.
 		cityCircle.addListener('click', function() {
-		infoWindow.setContent(infowincontent);
-		infoWindow.open(map, cityCircle);
+			console.log("test");
 		});
 
 	});
 
+}
 
 		/*
 
@@ -111,7 +101,6 @@ function initMap() {
 
 	*/
 
-}
 
 
 
