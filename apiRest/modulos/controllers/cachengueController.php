@@ -21,13 +21,20 @@
 
 		public function listar($id=array()) {
 			if(isset($id[0]) && $id != '') {
-							
+					
 					$bardoInst = new Cachengue();
 					$bardoInst->get($id[0]);
 
+					if ($bardoInst->msj == 'Existe') {
+						$instanciaView = new VistaCachengue($bardoInst);
+						$instanciaView->mostrar();
+
+					} else {
+						$instanciaView = new VistaCachengue([]);
+						$instanciaView->message = $bardoInst->msj;
+						$instanciaView->mostrar();
+					}
 					
-					$instanciaView = new VistaCachengue($bardoInst->cachengues);
-					$instanciaView->mostrar();
 
 			} else{
  					$bardoInst = new Cachengue();
@@ -42,6 +49,16 @@
 		}
 
 
+		public function listarn($nombre='') {
+			if($nombre != '') {
+				$cachengueInst = new Cachengue();
+				$cachengueInst->getNombre($nombre[0]);
+
+				$instanciaView = new VistaCachengue($cachengueInst->cachengues);
+				$instanciaView->$message = $cachengueInst->msj;
+				$instanciaView->mostrar();
+			}
+		}
 
 
 	}

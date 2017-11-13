@@ -21,11 +21,54 @@ class Cachengue extends dbAbstractModel{
     public $cachengues = array();
 
 
+	function __construct() {
+		$this->dbname = 'stopchat';
+
+	}
+
+
+    public function getNombre($nombre = '') {
+
+    	if ($nombre != '') {
+    		$this->query = "
+							SELECT *
+							FROM cachengue
+							WHERE nombre = '$nombre'
+							";
+			$this->consultaResultados();
+    	}
+    	
+    	if (count($this->rows) == 1) { // si existes el email
+			//print_r($this->rows);
+			foreach ($this->rows[0] as $propiedad => $valor) {
+				$this->$propiedad = $valor;
+
+			}
+			$this->msj = 'Existe';
+		} else {
+			$this->msj = 'No existe';
+		}
+    }
+
+
     public function get($id=0) {
     	
     	// Simula al query en la dB
     	if($id==0) { // retorna todos
-    		
+    		$this->query = "
+							SELECT *
+							FROM cachengue
+							";
+			$this->consultaResultados();
+			if (count($this->rows) > 1) {
+				$this->cachengues=$this->rows;
+				$this->msj = 'Varios Resultados';
+			} else {
+				$this->msj = 'No se encontraron Resultados';
+			}
+			
+
+    		/*
     		$this->cachengues[] = array( 
 										'idCachengue' => 1,
 							    		'nombre' => "Parada Monte Grande",
@@ -65,27 +108,38 @@ class Cachengue extends dbAbstractModel{
 									    'horaFin' => "2300",
 									    'usuariosMinimos' => 5,
 									    'usuariosActivos' => 20);    		
-    	} else { // retorna el id solicitado
+			*/
+    	} else { 
     		
+    		$this->query = "
+							SELECT *
+							FROM cachengue
+							WHERE idCachengue = '$id'
+							";
+			$this->consultaResultados();
 
-		    $this->cachengues[] = array( 
-										'idCachengue' => 1,
-							    		'nombre' => "Parada Monte Grande",
-							    		'posX' => -34.8145869,
-								    	'posY' => -58.4702204,
-								    	'radio' => 1,
-									    'activa' => true,
-									    'tipo' => "colectivos",
-									    'comentario' => "Sin informacion",
-									    'horaIncio' => "0000",
-									    'horaFin' => "2300",
-									    'usuariosMinimos' => 5,
-									    'usuariosActivos' => 0);
+			if (count($this->rows) == 1) { // Si existe el id
+				foreach ($this->rows[0] as $propiedad => $valor) {
+					$this->$propiedad = $valor;
+				}
+				$this->msj = 'Existe';
+			} else {
+				$this->msj = 'No existe';
+			}
+
     	}
     }
 
     public function set($datos) {
-    	//
+    	foreach ($datos as $campo => $valor) {
+			$$campo = $valor;
+
+		}
+		$this->query = "
+			INSERT INTO Cachengue(idCachengue, nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos)
+			VALUES ($idCachengue, $nombre, $posX, $posY, $radio, $activa, $tipo,$comentario, $diasActivo, $horaIncio, $horaFin, $usuariosMinimos, $usuariosActivos,);";
+		
+		$this->consultaSimple();
     }
 
     public function edit($datos) {
