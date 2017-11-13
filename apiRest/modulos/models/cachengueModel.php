@@ -21,6 +21,20 @@ class Cachengue extends dbAbstractModel{
     public $cachengues = array();
 
 
+    // Conexión a la base
+
+ //    var $usuario = "root";
+ //    var $password = "CotoMjcDa1"
+
+	// try{
+	//     $conn = new PDO('mysql:host=desarrolloupe.sytes.net;port=16329;dbname=tinderparada', $usuario, $password);
+	//     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	// }catch(PDOException $e){
+	//     echo "ERROR: " . $e->getMessage();
+	// }
+
+
+
     public function get($id=0) {
     	
     	// Simula al query en la dB

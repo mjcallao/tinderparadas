@@ -42,6 +42,19 @@
 		}
 
 
+		// public function listardb($id=array()){
+		// 	if(isset($id[0]) && $id!='') {
+
+				
+				
+		// 	}
+
+
+
+
+		// }
+
+
 
 
 	}

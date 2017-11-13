@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"></head><body>
+<?php
+echo '<h1>Ejemplo MySQL</h1>';
+// Conectamos con la base de datos
+
+$db = new PDO('mysql:host=desarrolloupe.sytes.net;port=16329;dbname=tinderparada;charset=utf8', 'root', 'CotoMjcDa1');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+try {
+	$stmt = $db->prepare("SELECT * FROM Cachengue");
+	//$stmt = $db->prepare("SELECT * FROM Cachengue WHERE pais=:mycountry");
+	//$stmt->execute( array(':mycountry' => 'USA') );
+	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch(PDOException $ex) {
+    echo "Ocurrió un error<br>";
+    echo $ex->getMessage();
+    exit;
+}
+
+echo '<ul>';
+foreach ($rows as $row) {
+	echo '<li>'.$row['idCachengue'].' : ('.$row['posX'].') '.$row['posY'].'</li>';
+	//echo '<li>'.$row['id'].' : ('.$row['pais'].') '.$row['titulo'].'</li>';
+}
+echo '</ul>';
+
+?>
+</body></html>
