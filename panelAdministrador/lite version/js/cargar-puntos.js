@@ -2,7 +2,7 @@ function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  // Especifica el lugar donde inicia el Google Maps, si el usuario acepta se va hasta su posicion.
 	  //center: {lat: -34.789288, lng: -58.523531},
-	  center: {lat: -34.8145869, lng: -58.4702204},
+	  center: {lat: -34.8145869, lng: -58.45},
 	  zoom: 13,
 	  mapTypeControlOptions: {
 	    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -40,7 +40,7 @@ function initMap() {
             location.posX, location.posY
             );
 
-            // Da forma al circulo
+            // Da forma al circulo y lo agrega al mapa.
 			var cityCircle = new google.maps.Circle({
 			strokeColor: '#FF0000',
 			strokeOpacity: 0.8,
@@ -54,10 +54,19 @@ function initMap() {
 			radius: 500
 			});
 
-		// Agrego al punto una accion.
+		// Agrego al punto ciertas acciones.
 		cityCircle.addListener('click', function() {
+			// Esta funcion sirve para que solo se pueda arrastrar y editar un solo circulo a la vez.
+			limpiarEditables(cityCircle);
+			puntoAEditar.push(cityCircle);
+
+			// aca le pasas el ID del punto a la funcion que lleva sus datos al editor.
 			idUnico = location.idCachengue
 			pedirDatosPuntos(idUnico);
+
+			// Con esto lo haces dragabble	
+			cityCircle.setDraggable(true);
+			cityCircle.setEditable(true);
 		});
 
 
@@ -70,6 +79,28 @@ function initMap() {
 
 	// Crea ventana customizable de Google para setearsela a cada ubicacion.
 	var infoWindow = new google.maps.InfoWindow;
+
+	// Funcion que captura las coordenadas de donde haga click el usuario.
+	/*
+	google.maps.event.addListener(map, 'click', function( event ){
+	  alert( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng() ); 
+	});
+	*/
+}
+
+
+
+// Cada vez que se clickea un punto sobre el mapa este pasa a estar dentro de la caja Editable.
+// Con esta funcion se le quitan las propiedades editables al circulo y se pone dentro el nuevo circulo a editar.
+var puntoAEditar = [];
+function limpiarEditables(cityCircle)
+{
+	// La primera vez que se lo llama no va a tener ningun objeto dentro del array.
+	if (puntoAEditar.length > 0){
+		puntoAEditar[0].setDraggable(false);
+		puntoAEditar[0].setEditable(false);
+		puntoAEditar = [];
+	}
 }
 
 function pedirDatosPuntos(idUnico){
@@ -116,6 +147,46 @@ function completarDatos(location){
 	$("#inputCantMinima").val(location.usuariosMinimos);
 
 }
+
+$("#agregarPunto").click(function(){
+	limpiarEditables();
+	$('#formulario').trigger("reset");
+	$("#botonCargarModificar").html("Cargar");
+	$("#botonCargarModificar").removeClass("btn-warning");
+	$("#botonCargarModificar").addClass("btn-danger");
+	crearNuevoPunto();
+});
+
+function crearNuevoPunto(){
+	var cityCircle = new google.maps.Circle({
+			strokeColor: '#FF0000',
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: '#FF0000',
+			fillOpacity: 0.35,
+			map: map,
+			center: map.getCenter(),
+			dragabble: true,
+			editable: true,
+			// Hardcodeo el radio a 500 para que se vean en el mapa
+			// radius: location.radio
+			radius: 500
+			});
+
+	cityCircle.addListener('click', function() {
+			// Esta funcion sirve para que solo se pueda arrastrar y editar un solo circulo a la vez.
+			limpiarEditables(cityCircle);
+			puntoAEditar.push(cityCircle);
+			// Con esto lo haces dragabble	
+			cityCircle.setDraggable(true);
+			cityCircle.setEditable(true);
+		});
+
+
+	limpiarEditables();
+	puntoAEditar.push(cityCircle);
+}
+
 
 
 		// Esto funcionaba si los puntos eran puntos y no areas. Si son areas no anda.
