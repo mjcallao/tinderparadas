@@ -61,6 +61,19 @@
 		}
 
 
+		public function comentario($id, $comentar){
+
+			if($id != '' || $comentar != ''){
+
+				$cachengueComent = new Cachengue();
+				$cachengueComent->updComentario($id[0],$comentar[0]);
+
+				$cachengueVista = new VistaCachengue(echo("Comentario Actualizado"));
+
+			}
+
+		}
+
 	}
 
 

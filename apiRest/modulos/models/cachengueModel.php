@@ -142,9 +142,27 @@ class Cachengue extends dbAbstractModel{
 		$this->consultaSimple();
     }
 
-    public function edit($datos) {
-    	//
+    
+    // Actualizar Usuario -por ahra lo hago solo para el comentario- @marcelo
+    public function updComentario($id, $comentar) {
+
+  		$this->query = "
+			UPDATE Cachengue
+			SET comentario = $comentar
+			WHERE idCachengue = $id
+			";
+
+		$this->consultaSimple();
     }
+
+
+   public function edit($id, $datos) {
+
+ 	}
+
+
+    	//
+  
 
     public function delete($id){
     	//
