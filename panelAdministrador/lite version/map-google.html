@@ -112,55 +112,70 @@
                                 <div id="controlador-botones">
                                     <div id="controlador-botones-interior">
 
-                                        <form action="">
-
+                                        <form action="" disabled id="formulario">
                                             <div class="form-group" id="cajaNombreYTipo">
-                                                <label for="">Nombre</label>
-                                                <span id="checkActiva"><input type="checkbox">Activa</span> 
-                                                <input type="text" class="form-control">
-                                                <label for="">Tipo</label>
-                                                <select class="form-control">
-                                            </div>
+                                                <span id="checkActiva" ><input type="checkbox" id="checkboxActiva">Activa</span> 
 
-                                            <div class="form-group">
+                                                <label for="inputNombre">Nombre</label>
+                                                <input type="text" class="form-control" id="inputNombre">
+                                              
+                                                <label for="selectTipo">Tipo</label>
+                                                <select class="form-control" id="selectTipo">
                                                     <option disabled selected value></option>
-                                                    <option value="banco">Parada</option>
+                                                    <option value="colectivos">Colectivos</option>
                                                     <option value="banco">Banco</option>
-                                                    <option value="banco">Comercio</option>
-                                                    <option value="banco">Salud</option>
-                                                    <option value="banco">Peaje</option>
-                                                    <option value="banco">Restaurante</option>
-                                                    <option value="banco">Otros</option>
+                                                    <option value="comercio">Comercio</option>
+                                                    <option value="salud">Salud</option>
+                                                    <option value="peaje">Peaje</option>
+                                                    <option value="restaurante">Restaurante</option>
+                                                    <option value="otros">Otros</option>
                                                 </select>
+                                                
+
                                             </div>
                                                 
                                             <div id="cajaDivDiasHorarios">
 
                                                 <div class="form-group" id="dias_semana">
-                                                    <input type="checkbox" name="dia_semana" value="Lunes">Lunes<br>
-                                                    <input type="checkbox" name="dia_semana" value="Martes">Martes<br>
-                                                    <input type="checkbox" name="dia_semana" value="Miercoles">Miercoles<br>
-                                                    <input type="checkbox" name="dia_semana" value="Jueves">Jueves<br>
-                                                    <input type="checkbox" name="dia_semana" value="Viernes">Viernes<br>
-                                                    <input type="checkbox" name="dia_semana" value="Sabado">Sabado<br>
-                                                    <input type="checkbox" name="dia_semana" value="Domingo">Domingo<br>
+                                                    <input id="checkboxLunes" type="checkbox" name="dia_semana" value="Lunes">
+                                                    <label class="labelDiasSemana" for="checkboxLunes">Lunes</label>
+                                                    <br>
+                                                    <input id="checkboxMartes" type="checkbox" name="dia_semana" value="Martes">
+                                                    <label class="labelDiasSemana" for="checkboxMartes">Martes</label>
+                                                    <br>
+                                                    <input id="checkboxMiercoles" type="checkbox" name="dia_semana" value="Miercoles">
+                                                    <label class="labelDiasSemana" for="checkboxMiercoles">Miercoles</label>
+                                                    <br>
+                                                    <input id="checkboxJueves" type="checkbox" name="dia_semana" value="Jueves">
+                                                    <label class="labelDiasSemana" for="checkboxJueves">Jueves</label>
+                                                    <br>
+                                                    <input id="checkboxViernes" type="checkbox" name="dia_semana" value="Viernes">
+                                                    <label class="labelDiasSemana" for="checkboxViernes">Viernes</label>
+                                                    <br>
+                                                    <input id="checkboxSabado" type="checkbox" name="dia_semana" value="Sabado">
+                                                    <label class="labelDiasSemana" for="checkboxSabado">Sabado</label>
+                                                    <br>
+                                                    <input id="checkboxDomingo" type="checkbox" name="dia_semana" value="Domingo">
+                                                    <label class="labelDiasSemana" for="checkboxDomingo">Domingo</label>
+                                                    <br>
                                                 </div>
 
                                                 <div class="form-group" id="horarios">
-                                                    <label for="">Hora Inicio:</label>
-                                                    <input type="time" class="form-control"><br><br>
-                                                    <label for="">Hora Fin:</label>                                                    
-                                                    <input type="time" class="form-control">
+                                                    <label for="inputHoraInicio">Hora Inicio:</label>
+                                                    <input type="time" class="form-control" id="inputHoraInicio"><br><br>
+
+                                                    <label for="inputHoraFin">Hora Fin:</label>                                                    
+                                                    <input type="time" class="form-control" id="inputHoraFin">
                                                 </div>
                                             </div>
                                                 
                                                 <div class="form-group" id="caja_comentario">
                                                     <label for="">Comentario:</label><br>
-                                                    <textarea class="form-control"></textarea>
+                                                    <textarea rows="2" class="form-control" id="inputCajaComentario"></textarea>
                                                 </div>
                                             
                                             <div class="form-group" id="cajaDivUsuariosMinimos">
-                                                <label id="labelCantMinima" for="">Cant. Min:</label>
+                                                <label id="labelCantMinima" for="inputCantMinima">Cant. Min:</label>
                                                 <input id="inputCantMinima" type="number" class="form-control">                                                
                                             </div>
                                         </form>
