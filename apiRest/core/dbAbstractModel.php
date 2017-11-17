@@ -13,7 +13,7 @@ abstract class dbAbstractModel{
 
 
 	private function abrirConexion() {
-		$this->conexion = new mysqli(self::$host, self::$port self::$usuario, self::$password, $this->dbname);
+		$this->conexion = new mysqli(self::$host, self::$usuario, self::$password, $this->dbname, self::$port);
 	
 	}
 

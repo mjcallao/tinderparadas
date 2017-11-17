@@ -61,7 +61,7 @@
 		}
 
 
-		public function comentario($id, $comentar){
+		public function comentario($id=aaray(), $comentar=''){
 
 			if($id != '' || $comentar != ''){
 
