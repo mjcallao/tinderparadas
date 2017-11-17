@@ -18,7 +18,6 @@
 
 	class cachengueController{
 
-
 		public function listar($id=array()) {
 			if(isset($id[0]) && $id != '') {
 					
@@ -37,15 +36,35 @@
 					
 
 			} else{
- 					$bardoInst = new Cachengue();
-					$bardoInst->get();
+ 				$bardoInst = new Cachengue();
+				$bardoInst->get();
 
 					
-					$instanciaView = new VistaCachengue($bardoInst->cachengues);
-					$instanciaView->mostrar();
+				$instanciaView = new VistaCachengue($bardoInst->cachengues);
+				$instanciaView->mostrar();
 			}
 			
 
+		}
+
+
+		// Lista con los datos minimos {id, posX, posY}
+		public function puntos($dato='') {
+			
+
+			$bardoInst = new Cachengue();
+			$bardoInst->getDatosMinimos();
+
+			if ($bardoInst->msj == 'Varios Resultados') {
+						$instanciaView = new VistaCachengue($bardoInst->cachengues);
+						$instanciaView->mostrar();
+
+			} else {
+						$instanciaView = new VistaCachengue([]);
+						$instanciaView->message = $bardoInst->msj;
+						$instanciaView->mostrar();
+			}
+		
 		}
 
 
@@ -60,7 +79,7 @@
 			}
 		}
 
-
+/*
 		public function comentario($id=aaray(), $comentar=''){
 
 			if($id != '' || $comentar != ''){
@@ -73,7 +92,7 @@
 			}
 
 		}
-
+*/
 	}
 
 

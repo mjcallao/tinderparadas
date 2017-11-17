@@ -1,10 +1,11 @@
 <?php
 abstract class dbAbstractModel{
 	// Atributos
-	private static $host = 'desarrolloupe.syte.net';
+	//private static $host =  'desarrolloupe.syte.net';
+	private static $host =  'localhost';//'desarrolloupe.syte.net';
 	private static $port = '16329';
 	private static $usuario = 'root';
-	private static $password = 'CotoMjcDa1';
+	private static $password = '';//'CotoMjcDa1';
 	protected $dbname = 'tinderparada';
 	protected $query;
 	protected $rows = array();
@@ -13,7 +14,8 @@ abstract class dbAbstractModel{
 
 
 	private function abrirConexion() {
-		$this->conexion = new mysqli(self::$host, self::$usuario, self::$password, $this->dbname, self::$port);
+		//$this->conexion = new mysqli(self::$host, self::$usuario, self::$password, $this->dbname, self::$port);
+		$this->conexion = new mysqli(self::$host, self::$usuario, self::$password, $this->dbname);//, self::$port);
 	
 	}
 
