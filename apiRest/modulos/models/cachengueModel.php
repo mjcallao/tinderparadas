@@ -155,8 +155,8 @@ class Cachengue extends dbAbstractModel{
 
 		}
 		$this->query = "
-			INSERT INTO Cachengue(idCachengue, nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos)
-			VALUES ($idCachengue, $nombre, $posX, $posY, $radio, $activa, $tipo,$comentario, $diasActivo, $horaIncio, $horaFin, $usuariosMinimos, $usuariosActivos,);";
+			INSERT INTO Cachengue(nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos)
+			VALUES ($nombre, $posX, $posY, $radio, $activa, $tipo,$comentario, $diasActivo, $horaIncio, $horaFin, $usuariosMinimos, $usuariosActivos,);";
 		
 		$this->consultaSimple();
     }
