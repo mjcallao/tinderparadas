@@ -55,7 +55,7 @@
                 
                 <div class="navbar-collapse">
                     
-                    <span class="spanPanelAdministrador">panel de administrador</span>
+                    <span class="spanPanelAdministrador">Panel de administrador</span>
                 </div>
             </nav>
         </header>
@@ -103,15 +103,15 @@
                                 <div id="controlador-botones">
                                     <div id="controlador-botones-interior">
 
-                                        <form action="" disabled id="formulario">
+                                        <form action="" id="formulario">
                                             <div class="form-group" id="cajaNombreYTipo">
-                                                <span id="checkActiva" ><input type="checkbox" id="checkboxActiva">Activa</span> 
+                                                <span id="checkActiva" ><input type="checkbox" id="checkboxActiva"><b>Activa</b></span> 
 
                                                 <label for="inputNombre">Nombre</label>
-                                                <input type="text" class="form-control" id="inputNombre">
+                                                <input type="text" class="form-control" id="inputNombre" required>
                                               
                                                 <label for="selectTipo">Tipo</label>
-                                                <select class="form-control" id="selectTipo">
+                                                <select class="form-control" id="selectTipo" required>
                                                     <option disabled selected value></option>
                                                     <option value="colectivos">Colectivos</option>
                                                     <option value="banco">Banco</option>
@@ -153,10 +153,10 @@
 
                                                 <div class="form-group" id="horarios">
                                                     <label for="inputHoraInicio">Hora Inicio:</label>
-                                                    <input type="time" class="form-control" id="inputHoraInicio"><br><br>
+                                                    <input type="time" class="form-control" id="inputHoraInicio" required><br><br>
 
                                                     <label for="inputHoraFin">Hora Fin:</label>                                                    
-                                                    <input type="time" class="form-control" id="inputHoraFin">
+                                                    <input type="time" class="form-control" id="inputHoraFin" required>
                                                 </div>
                                             </div>
                                                 
@@ -167,7 +167,7 @@
                                             
                                             <div class="form-group" id="cajaDivUsuariosMinimos">
                                                 <label id="labelCantMinima" for="inputCantMinima">Cant. Min:</label>
-                                                <input id="inputCantMinima" type="number" class="form-control">                                                
+                                                <input id="inputCantMinima" type="number" class="form-control" min="0" required>                                                 
                                             </div>
                                         </form>
 
@@ -186,8 +186,18 @@
             </div>
             
             
-            <footer class="footer text-center">
-                Todos los copyrights reservados.
+            <footer class="footer text-center" id="footerErrores">
+                <span class="spanError" id="nombreExistenteError">El nombre ya existe!</span>
+                <span class="spanError" id="nombreValidoError">El nombre debe tener entre 6 y 24 caracteres! (Espacios, numeros y letras sin acentos)</span>
+                <span class="spanError" id="seleccionValidaError">Selecciona el tipo de cachengue!</span>
+                <span class="spanError" id="diasValidosError">Debe seleccionarse un dia por lo menos! </span>
+                <span class="spanError" id="horariosValidosError">Faltan seleccionar los horarios!</span>
+                <span class="spanError" id="cantiMinimaValidaError">Debe ingresarse una cantidad mínima! (Mayor a cero)</span>
+                <span class="spanError"></span>
+                <span class="spanError"></span>
+                <span class="spanError"></span>
+                <span class="spanError" id="errorConexion">No se pudo conectar con la Base se datos!</span>
+                <span class="spanError" id="datosCargadosConExito">Datos cargados con éxito!</span>
             </footer>
             
         </div>

@@ -3,3 +3,13 @@
 	font-size: 20px;
 	color: white;
 }
+
+.spanError{
+	display: none;
+	font-size: 18px;
+	color: red;
+}
+
+#datosCargadosConExito{
+	color: green;
+}
