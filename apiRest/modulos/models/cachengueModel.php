@@ -177,6 +177,17 @@ class Cachengue extends dbAbstractModel{
 
    public function edit($id, $datos) {
 
+   		foreach ($datos as $campo => $valor) {
+			$$campo = $valor;
+		}
+   		$this->query = "
+   			UPDATE Cachengue
+   			SET (posX = $posX, posY = $posY)
+   			WHERE idCachengue = $id
+   			";
+
+   		$this->consultaSimple();
+
  	}
 
 
@@ -185,6 +196,11 @@ class Cachengue extends dbAbstractModel{
 
     public function delete($id){
     	//
+    
+    	$this->query = "
+    		DELETE FROM Cachengue WHERE idCchengue = $id
+    	"
+		$this->consultaSimple();
     }
 }
 
