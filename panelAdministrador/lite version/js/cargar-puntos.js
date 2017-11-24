@@ -68,6 +68,9 @@ function initMap() {
 			limpiarEditables();
 			puntoAEditar.push(cityCircle);
 
+			// Si habia creado un circulo nuevo sin guardar lo borra.
+			limpiarCirculoActual();
+
 			// aca le pasas el ID del punto a la funcion que lleva sus datos al editor.
 			idUnico = location.idCachengue
 			pedirDatosPuntos(idUnico);
@@ -202,8 +205,8 @@ $(document).ready(function(){
 			// Esto pregunta si es uno nuevo.
 			if(puntoAEditar[0].idCachengue==undefined)
 			{
-				if (true)
-				//if (validarCampos()) 
+				//if (true)
+				if (validarCampos()) 
 				{
 					// Preparo los datos para mandarlos a la BDD.
 
@@ -291,11 +294,13 @@ $(document).ready(function(){
 					console.log(arraycosas);
 
 					cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
+					// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
 				}
 			}
-			else{
+			else
+			{
 				console.log("Es uno existente");
-		}
+			}
 		}
 	});
 });
@@ -319,7 +324,18 @@ function validarCampos(){
 		$("#nombreValidoError").fadeOut();
 		},7000)
 		return false;
-		// Pedir el regex tambien
+	}
+
+	// Regex tambien
+	var reg = /^[A-Za-z0-9 ]{6,24}$/;
+	var match = $("#inputNombre").val().match(reg);
+	if (!match) {
+		$("#footerErrores").children().hide(); 
+		$("#nombreValidoError").fadeIn();
+		setTimeout(function(){
+		$("#nombreValidoError").fadeOut();
+		},7000)
+		return false;
 	}
 
 	// Valida que el tipo este bien ingresado.
