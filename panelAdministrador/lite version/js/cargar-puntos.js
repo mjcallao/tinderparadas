@@ -1,3 +1,5 @@
+var idUnicoHardcodeado = 0;
+
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  // Especifica el lugar donde inicia el Google Maps, si el usuario acepta se va hasta su posicion.
@@ -39,6 +41,7 @@ function initMap() {
 	  url: "http://desarrolloupe.sytes.net:16333/cachengue/puntos",
 	  data: null,
 	  success: function(result){
+	  	idUnicoHardcodeado = result.data.length+1;
 	  	locations = result.data;
 	  	// Recorro la lista de puntines
 	  	locations.forEach(function(location){
@@ -295,6 +298,24 @@ $(document).ready(function(){
 
 					cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
 					// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
+					// Esto deberia hacerse con una respuesta del ajax pero no hay tiempo.
+					circuloActual[0].set('strokeColor', "#FF0000");
+					circuloActual[0].set('fillColor', "#FF0000");
+					circuloActual[0].set("fillOpacity", "0.35");
+					circuloActual[0].set("idUnico", idUnicoHardcodeado);
+
+					// Esta variable se cuenta en base a cuantos puntos hay en el mapa actualmente, al agregar uno se le agrega un numero al ID unico. Ese va a ser el id 
+					// Del proximo punto. Cambiar esto y hacerlo como la gente pls.
+					idUnicoHardcodeado +=1;
+
+					// Se le agregan funciones onClick que son las unicas que le faltan para ser un punto hecho y derecho.
+	  				circuloActual[0].addListener('click', function() {
+	  					pedirDatosPuntos(this.idUnico);
+	  					limpiarCirculoActual();
+	  				});
+
+
+
 				}
 			}
 			else
@@ -393,32 +414,34 @@ function nombreExiste(){
 
 function cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos){
 	$.ajax({
-	//  dataType: "json",
 	  type: "POST",
 	  url: "http://desarrolloupe.sytes.net:16333/cachengue/guardar",
 	  data: 
 	  {
-	  	nombre:nombre,
-	  	posX:posX,
-	  	posY:posY,
-	  	radio:radio,
-	  	activa:activa,
-	  	tipo:tipo,
-	  	comentario:comentario,
-	  	diasActivo:diasActivo,
-	  	horaIncio:horaIncio,
-	  	horaFin:horaFin,
-	  	usuariosMinimos:usuariosMinimos,
-	  	usuariosActivos:usuariosActivos
+	  	"nombre":nombre,
+	  	"posX":posX,
+	  	"posY":posY,
+	  	"radio":radio,
+	  	"activa":activa,
+	  	"tipo":tipo,
+	  	"comentario":comentario,
+	  	"diasActivo":diasActivo,
+	  	"horaIncio":horaIncio,
+	  	"horaFin":horaFin,
+	  	"usuariosMinimos":usuariosMinimos,
+	  	"usuariosActivos":usuariosActivos
 	  },
 	  success: function(result){
-	  	console.log(result);
+	  	circuloActual=[];	  	
 	  },
-	  error: function(error){
-	  	console.log(error);
-	  }
+	  error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+        console.log(xhr.responseText);
+      }
 	});
 }
+
 
 
 		// Esto funcionaba si los puntos eran puntos y no areas. Si son areas no anda.
