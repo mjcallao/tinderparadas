@@ -3,9 +3,13 @@ var idUnicoHardcodeado = 0;
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  // Especifica el lugar donde inicia el Google Maps, si el usuario acepta se va hasta su posicion.
-	  //center: {lat: -34.789288, lng: -58.523531},
-	  center: {lat: -34.8145869, lng: -58.45},
-	  zoom: 13,
+
+	  // La facu.
+	  center: {lat: -34.789288, lng: -58.523531},
+
+	  // Casa Testing.
+	  //center: {lat: -34.8145869, lng: -58.45},
+	  zoom: 15,
 	  mapTypeControlOptions: {
 	    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
 	  }
@@ -13,8 +17,6 @@ function initMap() {
 
 
 	// Para pedir ubicacion.
-	// Descomentar!
-	/*
 	if (navigator.geolocation) {
 	      navigator.geolocation.getCurrentPosition(function(position) {
 	        var pos = {
@@ -26,7 +28,6 @@ function initMap() {
 	    } else {
 	      handleLocationError(false, map.getCenter());
 	    }
-    */
 
 	// Este Ajax deberia llamar una funcion que solo traiga la cascara de los datos!
 	$.ajax({
@@ -35,10 +36,10 @@ function initMap() {
 	  // url: "http://www.sucursal24.com/emanuel/apirest/cachengue/listar",
 
 	  // url que trae todos datos completos
-	  // url: "http://desarrolloupe.sytes.net:16333/cachengue/listar",
+	  url: "http://desarrolloupe.sytes.net:16333/cachengue/listar",
 
 	  // url que trae los datos simples
-	  url: "http://desarrolloupe.sytes.net:16333/cachengue/puntos",
+	  // url: "http://desarrolloupe.sytes.net:16333/cachengue/puntos",
 	  data: null,
 	  success: function(result){
 	  	idUnicoHardcodeado = result.data.length+1;
@@ -60,8 +61,8 @@ function initMap() {
 			map: map,
 			center: centro,
 			// Hardcodeo el radio a 500 para que se vean en el mapa
-			// radius: location.radio
-			radius: 500,
+			radius: parseInt(location.radio),
+			//radius: 500,
 			idCachengue:location.idCachengue
 			});
 
