@@ -76,10 +76,10 @@
 		}
 		
 
-		public function listarn($nombre='') {
-			if($nombre != '') {
+		public function listarn($id='') {
+			if($id != '') {
 				$cachengueInst = new Cachengue();
-				$cachengueInst->getNombre($nombre[0]);
+				$cachengueInst->getId($id[0]);
 
 				$instanciaView = new VistaCachengue($cachengueInst->cachengues);
 				$instanciaView->$message = $cachengueInst->msj;

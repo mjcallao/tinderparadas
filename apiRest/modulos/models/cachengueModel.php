@@ -27,13 +27,14 @@ class Cachengue extends dbAbstractModel{
 	}
 
 
-    public function getNombre($nombre = '') {
+	/*Acabo de modificar esta funcion para que pregunte por el ID en vez del nombre - Soy Roman xd*/
+    public function getId($id = '') {
 
-    	if ($nombre != '') {
+    	if ($id != '') {
     		$this->query = "
 							SELECT *
 							FROM cachengue
-							WHERE nombre = '$nombre'
+							WHERE idCachengue = '$id'
 							";
 			$this->consultaResultados();
     	}
