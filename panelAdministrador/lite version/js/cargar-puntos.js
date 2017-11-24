@@ -187,6 +187,30 @@ function crearNuevoPunto(){
 	puntoAEditar.push(cityCircle);
 }
 
+function testFunc(){
+	$.ajax({
+	  dataType: "json",
+	  type: "post",
+	  url: "http://desarrolloupe.sytes.net:16333/cachengue/listarn",
+	  data: {
+	  	idCachengue:"1"
+	  },
+	  success: function(result){
+	  	locations = result.data;
+	  	console.log("Resultado:");
+	  	console.log(result);
+	  },
+	  error: function(error){
+	  	console.log("Error:");
+	  	console.log(error);
+	  	console.log(XMLHttpRequest);
+	  	console.log(error.textStatus);
+	  	console.log(error.errorThrown);
+	  }
+	});
+}
+
+testFunc();
 
 
 		// Esto funcionaba si los puntos eran puntos y no areas. Si son areas no anda.
