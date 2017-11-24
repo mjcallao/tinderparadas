@@ -69,47 +69,6 @@ class Cachengue extends dbAbstractModel{
 			}
 			
 
-    		/*
-    		$this->cachengues[] = array( 
-										'idCachengue' => 1,
-							    		'nombre' => "Parada Monte Grande",
-							    		'posX' => -34.8145869,
-								    	'posY' => -58.4702204,
-								    	'radio' => 1,
-									    'activa' => true,
-									    'tipo' => "colectivos",
-									    'comentario' => "Sin informacion",
-									    'horaIncio' => "0000",
-									    'horaFin' => "2300",
-									    'usuariosMinimos' => 5,
-									    'usuariosActivos' => 0);
-    		$this->cachengues[] = array( 
-										'idCachengue' => 2,
-							    		'nombre' => "Parada Ezeiza",
-							    		'posX' => -34.8547186,
-								    	'posY' => -58.5231195,
-								    	'radio' => 3,
-									    'activa' => true,
-									    'tipo' => "colectivos",
-									    'comentario' => "Sin informacion",
-									    'horaIncio' => "0130",
-									    'horaFin' => "2400",
-									    'usuariosMinimos' => 5,
-									    'usuariosActivos' => 20);
-			$this->cachengues[] = array( 
-										'idCachengue' => 3,
-							    		'nombre' => "Estacion Luis guillon",
-							    		'posX' => -34.8009832,
-								    	'posY' => -58.4484962,
-								    	'radio' => 2,
-									    'activa' => true,
-									    'tipo' => "colectivos",
-									    'comentario' => "Sin informacion",
-									    'horaIncio' => "0500",
-									    'horaFin' => "2300",
-									    'usuariosMinimos' => 5,
-									    'usuariosActivos' => 20);    		
-			*/
     	} else { 
     		
     		$this->query = "
@@ -151,14 +110,16 @@ class Cachengue extends dbAbstractModel{
     }
 
     public function set($datos) {
+
     	foreach ($datos as $campo => $valor) {
 			$$campo = $valor;
 
 		}
+	
 		$this->query = "
-			INSERT INTO Cachengue(nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos)
-			VALUES ($nombre, $posX, $posY, $radio, $activa, $tipo,$comentario, $diasActivo, $horaIncio, $horaFin, $usuariosMinimos, $usuariosActivos,);";
-		
+			INSERT INTO cachengue(nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos)
+			VALUES ('$nombre', '$posX', '$posY', '$radio', '$activa', '$tipo','$comentario', '$diasActivo', '$horaIncio', '$horaFin', '$usuariosMinimos', '$usuariosActivos');";
+
 		$this->consultaSimple();
     }
 
@@ -200,7 +161,7 @@ class Cachengue extends dbAbstractModel{
     
     	$this->query = "
     		DELETE FROM Cachengue WHERE idCchengue = $id
-    	"
+    	";
 		$this->consultaSimple();
     }
 }

@@ -90,11 +90,11 @@
 
 		public function guardar($datos='') {
 			$arrayDatosValidos = $this->validarDatosPOST();
-
+		
 			if(is_array($arrayDatosValidos)) {
 				// instancia el modelo
 				$instCachengue = new Cachengue();
-				$instCachengue->set($arrayDatosValidosa);
+				$instCachengue->set($arrayDatosValidos);
 			}
 		
 
@@ -130,10 +130,10 @@
 function cercania($point1_lat, $point1_long, $radio_km) {
 	// Cálculo de la distancia en grados
 	
-	 $point2_lat
-	 $point2_long
-	 $unit = 'km'
-	 $decimals = 4
+	 $point2_lat;
+	 $point2_long;
+	 $unit = 'km';
+	 $decimals = 4;
 
 
 	$degrees = rad2deg(acos((sin(deg2rad($point1_lat))*sin(deg2rad($point2_lat))) + (cos(deg2rad($point1_lat))*cos(deg2rad($point2_lat))*cos(deg2rad($point1_long-$point2_long)))));
