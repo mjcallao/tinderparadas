@@ -1,4 +1,13 @@
+// Esta variable se suma por cada circulo que se agrega al mapa. Se usa para saber cual es el ID de un circulo nuevo. Temporal hasta que se cree del lado del servidor.
+// Una funcion que lo devuelva al crearlo.
 var idUnicoHardcodeado = 0;
+lista
+
+$(document).ready(function(){
+	$("#formulario :input").attr("disabled", true);
+	$("#botonCargarModificar").attr("disabled", true);
+
+})
 
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -32,13 +41,12 @@ function initMap() {
 	// Este Ajax deberia llamar una funcion que solo traiga la cascara de los datos!
 	$.ajax({
 	  dataType: "json",
-	  // url vieja
-	  // url: "http://www.sucursal24.com/emanuel/apirest/cachengue/listar",
 
 	  // url que trae todos datos completos
 	  url: "http://desarrolloupe.sytes.net:16333/cachengue/listar",
 
 	  // url que trae los datos simples
+	  // No trae los radios asi que uso el otro.
 	  // url: "http://desarrolloupe.sytes.net:16333/cachengue/puntos",
 	  data: null,
 	  success: function(result){
@@ -82,6 +90,14 @@ function initMap() {
 			// Con esto lo haces dragabble	
 			cityCircle.setDraggable(true);
 			cityCircle.setEditable(true);
+
+			$("#formulario :input").attr("disabled", false);
+			$("#botonCargarModificar").attr("disabled", false);
+
+			console.log(this.center.lat());
+			console.log(this.center.lng());
+			console.log(this.radius);
+
 		});
 
 
@@ -131,12 +147,56 @@ function completarDatos(location){
 	$("#inputNombre").val(location.nombre);
 	$("#selectTipo").val(location.tipo);
 
-	// Faltan los dias de semana. Quedan hardcodeados hasta que este.
-	$("#checkboxLunes").prop('checked', true);
-	$("#checkboxMartes").prop('checked', true);
-	$("#checkboxMiercoles").prop('checked', true);
-	$("#checkboxJueves").prop('checked', true);
-	$("#checkboxViernes").prop('checked', true);
+	// Se setean los dias en base al numero binario guardado.	
+	if (location.diasActivo[0] == undefined || location.diasActivo[0] == 0){
+		var ln = false;
+	}else{
+		var ln = location.diasActivo[4];
+	}
+
+	if (location.diasActivo[1] == undefined || location.diasActivo[1] == 0){
+		var mt = false;
+	}else{
+		var mt = location.diasActivo[4];
+	}
+
+	if (location.diasActivo[2] == undefined || location.diasActivo[2] == 0){
+		var mc = false;
+	}else{
+		var mc = location.diasActivo[4];
+	}
+
+	if (location.diasActivo[3] == undefined || location.diasActivo[3] == 0){
+		var jv = false;
+	}else{
+		var jv = location.diasActivo[4];
+	}
+
+	if (location.diasActivo[4] == undefined || location.diasActivo[4] == 0){
+		var vr = false;
+	}else{
+		var vr = location.diasActivo[4];
+	}
+
+	if (location.diasActivo[5] == undefined || location.diasActivo[5] == 0){
+		var sb = false;
+	} else{
+		var sb = location.diasActivo[5];
+	}
+
+	if (location.diasActivo[6] == undefined || location.diasActivo[6] == 0){
+		var dm = false;
+	} else{
+		var dm = location.diasActivo[6];
+	}
+
+	$("#checkboxLunes").prop('checked', ln);
+	$("#checkboxMartes").prop('checked', mt);
+	$("#checkboxMiercoles").prop('checked', mc);
+	$("#checkboxJueves").prop('checked', jv);
+	$("#checkboxViernes").prop('checked', vr);
+	$("#checkboxSabado").prop('checked', sb);
+	$("#checkboxDomingo").prop('checked', dm);
 
 	$("#inputHoraInicio").val(location.horaIncio);
 
@@ -151,9 +211,11 @@ function completarDatos(location){
 $("#agregarPunto").click(function(){
 	limpiarEditables();
 	$('#formulario').trigger("reset");
-	$("#botonCargarModificar").html("Cargar");
+	$("#botonCargarModificar").html("Guardar");
 	$("#botonCargarModificar").removeClass("btn-warning");
 	$("#botonCargarModificar").addClass("btn-danger");
+	$("#formulario :input").attr("disabled", false);
+	$("#botonCargarModificar").attr("disabled", false);	
 	crearNuevoPunto();
 });
 
@@ -170,7 +232,7 @@ function crearNuevoPunto(){
 			editable: true,
 			// Hardcodeo el radio a 500 para que se vean en el mapa
 			// radius: location.radio
-			radius: 500
+			radius: 30
 			});
 
 	cityCircle.addListener('click', function() {
@@ -188,6 +250,8 @@ function crearNuevoPunto(){
 	puntoAEditar.push(cityCircle);
 
 	// Esta funcion limpia si habia un circulo anterior nuevo sin guardar o editandose sin guardar.
+	// Las funciones que guardan circulos nuevos o editados los remueven de esta lista al hacerlo.
+	// Entonces al llamar a esta funcion no va a encontrar nada y por lo tanto no se van a eliminar.
 	limpiarCirculoActual();
 	circuloActual.push(cityCircle);
 }
@@ -206,7 +270,8 @@ $(document).ready(function(){
 		// Para que vea si tiene sentido tocar el boton.
 		if (puntoAEditar.length > 0) 
 		{
-			// Esto pregunta si es uno nuevo.
+			// Esto pregunta si es uno nuevo. 
+			// Lo pregunta sabe si circulo nuevo (cpuesto esta dentro del array puntoAEditar) no tiene ID.
 			if(puntoAEditar[0].idCachengue==undefined)
 			{
 				//if (true)
@@ -284,6 +349,7 @@ $(document).ready(function(){
 						dias+="0";
 					}				
 
+
 					//Valor de horas
 					var horaInicio = $("#inputHoraInicio").val();
 					var horaFin = $("#inputHoraFin").val();
@@ -294,34 +360,41 @@ $(document).ready(function(){
 					//Valor usuariosActivos
 					var usuariosActivos = "0";					
 					
-					var arraycosas = [nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
-					console.log(arraycosas);
+					// Debug
+					// var arraycosas = [nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
+					//console.log(arraycosas);
 
-					cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
-					// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
-					// Esto deberia hacerse con una respuesta del ajax pero no hay tiempo.
-					circuloActual[0].set('strokeColor', "#FF0000");
-					circuloActual[0].set('fillColor', "#FF0000");
-					circuloActual[0].set("fillOpacity", "0.35");
-					circuloActual[0].set("idUnico", idUnicoHardcodeado);
+					if (validarRadio(circuloActual[0])) {
+						cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
+						// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
+						// Esto deberia hacerse con una respuesta del ajax pero no hay tiempo.
+						circuloActual[0].set('strokeColor', "#FF0000");
+						circuloActual[0].set('fillColor', "#FF0000");
+						circuloActual[0].set("fillOpacity", "0.35");
+						circuloActual[0].set("idUnico", idUnicoHardcodeado);
 
-					// Esta variable se cuenta en base a cuantos puntos hay en el mapa actualmente, al agregar uno se le agrega un numero al ID unico. Ese va a ser el id 
-					// Del proximo punto. Cambiar esto y hacerlo como la gente pls.
-					idUnicoHardcodeado +=1;
+						// Esta variable se cuenta en base a cuantos puntos hay en el mapa actualmente, al agregar uno se le agrega un numero al ID unico. Ese va a ser el id 
+						// Del proximo punto. Cambiar esto y hacerlo como la gente pls.
+						idUnicoHardcodeado +=1;
 
-					// Se le agregan funciones onClick que son las unicas que le faltan para ser un punto hecho y derecho.
-	  				circuloActual[0].addListener('click', function() {
-	  					pedirDatosPuntos(this.idUnico);
-	  					limpiarCirculoActual();
-	  				});
-
-
+						// Se le agregan funciones onClick que son las unicas que le faltan para ser un punto hecho y derecho.
+		  				circuloActual[0].addListener('click', function() {
+		  					pedirDatosPuntos(this.idUnico);
+		  					limpiarCirculoActual();
+		  				});
+					}
 
 				}
 			}
 			else
 			{
 				console.log("Es uno existente");
+				$("#footerErrores").children().hide();
+				$("#datosCargadosConExito").fadeIn();
+				setTimeout(function(){
+			    $("#datosCargadosConExito").fadeOut();
+				},3000)
+				return true;
 			}
 		}
 	});
@@ -389,9 +462,27 @@ function validarCampos(){
 		},5000)
 		return false;
 	}
+
+	if ($("#inputHoraInicio").val() > $("#inputHoraFin").val()){
+		$("#footerErrores").children().hide(); 
+		$("#horariosValidosError").fadeIn();
+		setTimeout(function(){
+		$("#horariosValidosError").fadeOut();
+		},5000)
+		return false;
+	}
 	
 	// Validar cantidad minima.
 	if(!$("#inputCantMinima").val()){
+		$("#footerErrores").children().hide(); 
+		$("#cantiMinimaValidaError").fadeIn();
+		setTimeout(function(){
+		$("#cantiMinimaValidaError").fadeOut();
+		},5000)
+		return false;
+	}
+
+	if($("#inputCantMinima").val() <= 0){
 		$("#footerErrores").children().hide(); 
 		$("#cantiMinimaValidaError").fadeIn();
 		setTimeout(function(){
@@ -409,41 +500,24 @@ function validarCampos(){
 	return true;
 }
 
-function nombreExiste(){
+function validarRadio(circulo){
+	console.log(circulo);
+	if (circulo.radius > 500) {
+		$("#footerErrores").children().hide(); 
+		$("#areaCirculoError").fadeIn();
+		setTimeout(function(){
+		$("#areaCirculoError").fadeOut();
+		},5000)
+		return false;
+	}
+
+
 	return false;
 }
 
-function cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos){
-	$.ajax({
-	  type: "POST",
-	  url: "http://desarrolloupe.sytes.net:16333/cachengue/guardar",
-	  data: 
-	  {
-	  	"nombre":nombre,
-	  	"posX":posX,
-	  	"posY":posY,
-	  	"radio":radio,
-	  	"activa":activa,
-	  	"tipo":tipo,
-	  	"comentario":comentario,
-	  	"diasActivo":diasActivo,
-	  	"horaIncio":horaIncio,
-	  	"horaFin":horaFin,
-	  	"usuariosMinimos":usuariosMinimos,
-	  	"usuariosActivos":usuariosActivos
-	  },
-	  success: function(result){
-	  	circuloActual=[];	  	
-	  },
-	  error: function (xhr, ajaxOptions, thrownError) {
-        console.log(xhr.status);
-        console.log(thrownError);
-        console.log(xhr.responseText);
-      }
-	});
+function nombreExiste(){
+	return false;
 }
-
-
 
 		// Esto funcionaba si los puntos eran puntos y no areas. Si son areas no anda.
 
@@ -481,6 +555,39 @@ function cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentari
 	    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
 	*/
+
+function cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos){
+	$.ajax({
+	  type: "POST",
+	  url: "http://desarrolloupe.sytes.net:16333/cachengue/guardar",
+	  data: 
+	  {
+	  	"nombre":nombre,
+	  	"posX":posX,
+	  	"posY":posY,
+	  	"radio":radio,
+	  	"activa":activa,
+	  	"tipo":tipo,
+	  	"comentario":comentario,
+	  	"diasActivo":diasActivo,
+	  	"horaIncio":horaIncio,
+	  	"horaFin":horaFin,
+	  	"usuariosMinimos":usuariosMinimos,
+	  	"usuariosActivos":usuariosActivos
+	  },
+	  success: function(result){
+	  	circuloActual=[];	  	
+	  },
+	  error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+        console.log(xhr.responseText);
+      }
+	});
+}
+
+
+
 
 
 
