@@ -1,7 +1,10 @@
 // Esta variable se suma por cada circulo que se agrega al mapa. Se usa para saber cual es el ID de un circulo nuevo. Temporal hasta que se cree del lado del servidor.
 // Una funcion que lo devuelva al crearlo.
 var idUnicoHardcodeado = 0;
-lista
+
+//Esta lista se va a llenar con los datos de los puntos.
+lista=[];
+
 
 $(document).ready(function(){
 	$("#formulario :input").attr("disabled", true);
@@ -54,6 +57,7 @@ function initMap() {
 	  	locations = result.data;
 	  	// Recorro la lista de puntines
 	  	locations.forEach(function(location){
+	  		lista.push(this);
 	  		// Seteo latitud y longitud en la variable point
 			var centro = new google.maps.LatLng(
             location.posX, location.posY
@@ -364,6 +368,7 @@ $(document).ready(function(){
 					// var arraycosas = [nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
 					//console.log(arraycosas);
 
+					// Valida que el radio no toque otros circulos y no sea mayor a 5 cuadras.
 					if (validarRadio(circuloActual[0])) {
 						cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
 						// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
@@ -475,21 +480,45 @@ function validarCampos(){
 	// Validar cantidad minima.
 	if(!$("#inputCantMinima").val()){
 		$("#footerErrores").children().hide(); 
-		$("#cantiMinimaValidaError").fadeIn();
+		$("#cantiMinimaError").fadeIn();
 		setTimeout(function(){
-		$("#cantiMinimaValidaError").fadeOut();
+		$("#cantiMinimaError").fadeOut();
 		},5000)
 		return false;
 	}
 
+	// Numero menor o igual a 0.
 	if($("#inputCantMinima").val() <= 0){
 		$("#footerErrores").children().hide(); 
-		$("#cantiMinimaValidaError").fadeIn();
+		$("#cantiMinimaError").fadeIn();
 		setTimeout(function(){
-		$("#cantiMinimaValidaError").fadeOut();
+		$("#cantiMinimaError").fadeOut();
 		},5000)
 		return false;
 	}
+
+	// Numero mayor a 100.
+	if($("#inputCantMinima").val() > 100){
+		$("#footerErrores").children().hide(); 
+		$("#cantiMaximaError").fadeIn();
+		setTimeout(function(){
+		$("#cantiMaximaError").fadeOut();
+		},5000)
+		return false;
+	}
+
+	// Reg para que no pongan numeros con coma.
+	var reg2 = /^\d+$/;
+	var match2 = $("#inputCantMinima").val().match(reg2);
+	if (!match2) {
+		$("#footerErrores").children().hide(); 
+		$("#cantiMinimaEnteroError").fadeIn();
+		setTimeout(function(){
+		$("#cantiMinimaEnteroError").fadeOut();
+		},7000)
+		return false;
+	}
+
 
 	// Si esta todo bien no entra en ninguna excepcion, se muestra un mensaje de OK y se devuelve True.
 	$("#footerErrores").children().hide();
