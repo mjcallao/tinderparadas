@@ -3,7 +3,7 @@
 var idUnicoHardcodeado = 0;
 
 //Esta lista se va a llenar con los datos de los puntos.
-lista=[];
+listaCachengues=[];
 
 
 $(document).ready(function(){
@@ -29,6 +29,7 @@ function initMap() {
 
 
 	// Para pedir ubicacion.
+	/*
 	if (navigator.geolocation) {
 	      navigator.geolocation.getCurrentPosition(function(position) {
 	        var pos = {
@@ -40,6 +41,8 @@ function initMap() {
 	    } else {
 	      handleLocationError(false, map.getCenter());
 	    }
+
+    */
 
 	// Este Ajax deberia llamar una funcion que solo traiga la cascara de los datos!
 	$.ajax({
@@ -57,7 +60,6 @@ function initMap() {
 	  	locations = result.data;
 	  	// Recorro la lista de puntines
 	  	locations.forEach(function(location){
-	  		lista.push(this);
 	  		// Seteo latitud y longitud en la variable point
 			var centro = new google.maps.LatLng(
             location.posX, location.posY
@@ -102,8 +104,10 @@ function initMap() {
 			console.log(this.center.lng());
 			console.log(this.radius);
 
+
 		});
 
+		listaCachengues.push(cityCircle);
 
 	  	});
 	  }
@@ -278,6 +282,8 @@ $(document).ready(function(){
 			// Lo pregunta sabe si circulo nuevo (cpuesto esta dentro del array puntoAEditar) no tiene ID.
 			if(puntoAEditar[0].idCachengue==undefined)
 			{
+
+				// Debug
 				//if (true)
 				if (validarCampos()) 
 				{
@@ -368,7 +374,7 @@ $(document).ready(function(){
 					// var arraycosas = [nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
 					//console.log(arraycosas);
 
-					// Valida que el radio no toque otros circulos y no sea mayor a 5 cuadras.
+					// Valida que el radio no toque otros circulos y no sea mayor a 3 cuadras.
 					if (validarRadio(circuloActual[0])) {
 						cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
 						// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
@@ -387,6 +393,7 @@ $(document).ready(function(){
 		  					pedirDatosPuntos(this.idUnico);
 		  					limpiarCirculoActual();
 		  				});
+		  				limpiarEditables();
 					}
 
 				}
@@ -468,7 +475,18 @@ function validarCampos(){
 		return false;
 	}
 
+	// Valida que la hora de inicio no sea mayor a la hora de fin.
 	if ($("#inputHoraInicio").val() > $("#inputHoraFin").val()){
+		$("#footerErrores").children().hide(); 
+		$("#horariosValidosError").fadeIn();
+		setTimeout(function(){
+		$("#horariosValidosError").fadeOut();
+		},5000)
+		return false;
+	}
+
+	// Valida que las horas no sean iguales.
+	if ($("#inputHoraInicio").val().toString() == $("#inputHoraFin").val().toString()){
 		$("#footerErrores").children().hide(); 
 		$("#horariosValidosError").fadeIn();
 		setTimeout(function(){
@@ -530,8 +548,7 @@ function validarCampos(){
 }
 
 function validarRadio(circulo){
-	console.log(circulo);
-	if (circulo.radius > 500) {
+	if (circulo.radius > 300) {
 		$("#footerErrores").children().hide(); 
 		$("#areaCirculoError").fadeIn();
 		setTimeout(function(){
@@ -540,9 +557,76 @@ function validarRadio(circulo){
 		return false;
 	}
 
+	var resultado = true;
+	listaCachengues.some(function(cachengue){
+		// LONGITUD ES X, LATITUD ES Y 
+		// El segundo decimal es 1.1 kilometro. (0.01)
+		// El quinto decimal es 1.1 metro. (0.00001)
 
-	return false;
+		// El maximo de longitud para un circulo es 300 metros. Busca que circulos estan a 700 metros de distancia.
+		// Primero se fija si estan a menos de un kilometro en el eje Y, osea de arriba pa' bajo. (Tambien llamado Latitud)
+		var distLat = circulo.center.lat() - cachengue.center.lat();
+		if (Math.abs(distLat) < 0.007) {
+
+			// Si entra se fija que esten a menos de un kilometro en el eje X, osea de izquierda pa' derecha. (Tambien llamado Longitud)
+			distLng = circulo.center.lng() - cachengue.center.lng();
+			if (Math.abs(distLng) < 0.007) {
+				latMetro = (circulo.center.lat());
+
+				// Necesito agregarle ceros adelante para despues sumarlo
+				// El numero del radio puede ir de 1 digito a 3, le agrego ceros si tiene 1 o 2.
+
+				// CIRCULOS CERCANOS
+				// Formateo una variable para pasar los metros del radio de los circulos cercanos a numero de coordenada.
+				var distRadioCachengue = ""+(cachengue.radius);
+				for (var i = cachengue.radius.toString().length; i < 3; i++) {
+					var distRadioCachengue = "0"+distRadioCachengue;
+				}
+				var distRadioCachengue = "0.00"+distRadioCachengue;
+				var distRadioCachengue = parseFloat(distRadioCachengue)*1.1;
+
+				// CIRCULO ACTUAL
+				// Formateo una variable para pasar los metros del radio del circulo a crear a numero de coordenada.
+				var distRadioCirculo = ""+Math.trunc(circulo.radius);
+				for (var i = Math.trunc(circulo.radius).toString().length; i < 3; i++) {
+					var distRadioCirculo = "0"+distRadioCirculo;
+				}
+				var distRadioCirculo = "0.00"+distRadioCirculo;
+				var distRadioCirculo = parseFloat(distRadioCirculo)*1.1;
+
+				// Sumo ambos radios.
+				// Los circulos no deberian estar a menos de 5 metros cada uno, es decir, 0.00005
+				var distTotal = distRadioCirculo + distRadioCachengue + 0.00004;
+
+				// Ahora se fija si alguno pasa la distancia permitida por LATITUD.
+				if (Math.abs(circulo.center.lat() - cachengue.center.lat()) < distTotal) {
+					// Ahora se fija si alguna pasa la distancia permitida por LONGITUD.
+					if (Math.abs(circulo.center.lng() - cachengue.center.lng()) < distTotal) {
+						// Si entra aca es porque hay un circulo demasiado cerca.
+						$("#footerErrores").children().hide(); 
+						$("#circuloCercanoError").fadeIn();
+						setTimeout(function(){
+						$("#circuloCercanoError").fadeOut();
+						},5000)
+						resultado = false;
+						return false;
+					}
+				}
+
+			}
+
+		}
+	});
+	return resultado;
 }
+
+/*
+[2,1,2].every(function(el) {
+  	console.log('asdf');
+    return !(el === 1);
+});
+
+*/
 
 function nombreExiste(){
 	return false;
