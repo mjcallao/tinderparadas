@@ -43,6 +43,33 @@ class Chat extends dbAbstractModel{
 		$this->mensajes = $consulta;
 		*/
 	}
+// retorna el chat de un cachengue dato por el $id
+	public function getcomentarios($id) {
+		// Simula la consulta en la de para el cachengue $id=1
+		//$mensaje  = array('nick' => 'pepe', 'texto' => 'hola gente');
+		$this->query = "SELECT mensaje, idCachengue 
+						FROM chat
+						WHERE idCachengue = '$id'
+						;";
+
+		$this->consultaResultados();
+
+		if (count($this->rows) > 1) {
+				$this->mensajes=$this->rows;
+				$this->msj = 'Varios Resultados';
+			} else {
+				$this->msj = 'No se encontraron Resultados';
+			}
+		/*
+		$consulta  = array(
+					array('nick' => 'pepito', 'texto' => 'hola gente'),
+					array('nick' => 'juan', 'texto' => '¿Que onda con esto?'),
+					array('nick' => 'pepito', 'texto' => 'gente hace mucho que esperan'),
+					array('nick' => 'juan', 'texto' => 'Hace come media hs :/'),
+			);
+		$this->mensajes = $consulta;
+		*/
+	}
 
 
 	public function set($mensaje) {
