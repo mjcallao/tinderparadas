@@ -68,10 +68,18 @@
 		}
 
 
-		public function listarn($nombre='') {
-			if($nombre != '') {
+		public function puntosguardar($dato=''){
+
+			$bardoInst = new Cachengue();
+
+
+		}
+		
+
+		public function listarn($id='') {
+			if($id != '') {
 				$cachengueInst = new Cachengue();
-				$cachengueInst->getNombre($nombre[0]);
+				$cachengueInst->getId($id[0]);
 
 				$instanciaView = new VistaCachengue($cachengueInst->cachengues);
 				$instanciaView->$message = $cachengueInst->msj;
@@ -82,11 +90,11 @@
 
 		public function guardar($datos='') {
 			$arrayDatosValidos = $this->validarDatosPOST();
-
+		
 			if(is_array($arrayDatosValidos)) {
 				// instancia el modelo
 				$instCachengue = new Cachengue();
-				$instCachengue->set($arrayDatosValidosa);
+				$instCachengue->set($arrayDatosValidos);
 			}
 		
 
@@ -117,6 +125,38 @@
 				return false;
 			}
 		}
+
+
+function cercania($point1_lat, $point1_long, $radio_km) {
+	// Cálculo de la distancia en grados
+	
+	 $point2_lat;
+	 $point2_long;
+	 $unit = 'km';
+	 $decimals = 4;
+
+
+	$degrees = rad2deg(acos((sin(deg2rad($point1_lat))*sin(deg2rad($point2_lat))) + (cos(deg2rad($point1_lat))*cos(deg2rad($point2_lat))*cos(deg2rad($point1_long-$point2_long)))));
+ 
+	// Conversión de la distancia en grados a la unidad escogida (kilómetros, millas o millas naúticas)
+	switch($unit) {
+		case 'km':
+			$distance = $degrees * 111.13384; // 1 grado = 111.13384 km, basándose en el diametro promedio de la Tierra (12.735 km)
+			break;
+		case 'mi':
+			$distance = $degrees * 69.05482; // 1 grado = 69.05482 millas, basándose en el diametro promedio de la Tierra (7.913,1 millas)
+			break;
+		case 'nmi':
+			$distance =  $degrees * 59.97662; // 1 grado = 59.97662 millas naúticas, basándose en el diametro promedio de la Tierra (6,876.3 millas naúticas)
+	}
+	return round($distance, $decimals);
+}
+
+
+
+
+
+
 /*
 		public function comentario($id=aaray(), $comentar=''){
 
