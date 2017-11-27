@@ -47,7 +47,7 @@ class Chat extends dbAbstractModel{
 	public function getcomentarios($id) {
 		// Simula la consulta en la de para el cachengue $id=1
 		//$mensaje  = array('nick' => 'pepe', 'texto' => 'hola gente');
-		$this->query = "SELECT mensaje, idCachengue 
+		$this->query = "SELECT mensaje 
 						FROM chat
 						WHERE idCachengue = '$id'
 						;";
