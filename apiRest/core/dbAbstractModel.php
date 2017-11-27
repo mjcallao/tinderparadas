@@ -5,8 +5,8 @@ abstract class dbAbstractModel{
 	private static $host =  'localhost';//'desarrolloupe.syte.net';
 	private static $port = '16329';
 	private static $usuario = 'root';
-	private static $password = '';//'CotoMjcDa1';
-	protected $dbname = 'tinderparada';
+	private static $password = 'CotoMjcDa1';
+	protected $dbname = 'stopchat';
 	protected $query;
 	protected $rows = array();
 	protected $conexion;
