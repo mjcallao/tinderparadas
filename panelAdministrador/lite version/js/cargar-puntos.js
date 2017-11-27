@@ -100,11 +100,6 @@ function initMap() {
 			$("#formulario :input").attr("disabled", false);
 			$("#botonCargarModificar").attr("disabled", false);
 
-			console.log(this.center.lat());
-			console.log(this.center.lng());
-			console.log(this.radius);
-
-
 		});
 
 		listaCachengues.push(cityCircle);
@@ -279,12 +274,13 @@ $(document).ready(function(){
 		if (puntoAEditar.length > 0) 
 		{
 			// Esto pregunta si es uno nuevo. 
-			// Lo pregunta sabe si circulo nuevo (cpuesto esta dentro del array puntoAEditar) no tiene ID.
+			// Lo pregunta sabe si circulo nuevo si no tiene ID.
 			if(puntoAEditar[0].idCachengue==undefined)
 			{
 
 				// Debug
 				//if (true)
+
 				if (validarCampos()) 
 				{
 					// Preparo los datos para mandarlos a la BDD.
@@ -382,7 +378,7 @@ $(document).ready(function(){
 						circuloActual[0].set('strokeColor', "#FF0000");
 						circuloActual[0].set('fillColor', "#FF0000");
 						circuloActual[0].set("fillOpacity", "0.35");
-						circuloActual[0].set("idUnico", idUnicoHardcodeado);
+						circuloActual[0].set("idCachengue", idUnicoHardcodeado);
 
 						// Esta variable se cuenta en base a cuantos puntos hay en el mapa actualmente, al agregar uno se le agrega un numero al ID unico. Ese va a ser el id 
 						// Del proximo punto. Cambiar esto y hacerlo como la gente pls.
@@ -390,10 +386,18 @@ $(document).ready(function(){
 
 						// Se le agregan funciones onClick que son las unicas que le faltan para ser un punto hecho y derecho.
 		  				circuloActual[0].addListener('click', function() {
-		  					pedirDatosPuntos(this.idUnico);
+		  					pedirDatosPuntos(this.idCachengue);
 		  					limpiarCirculoActual();
+		  					$("#formulario :input").attr("disabled", false);
+							$("#botonCargarModificar").attr("disabled", false);
 		  				});
+
+		  				listaCachengues.push(circuloActual[0])
 		  				limpiarEditables();
+		  				$("#formulario :input").attr("disabled", true);
+						$("#botonCargarModificar").attr("disabled", true);
+						$('#formulario').trigger("reset");
+
 					}
 
 				}
@@ -558,6 +562,7 @@ function validarRadio(circulo){
 	}
 
 	var resultado = true;
+	// Comparo con la lista de cachengues si alguno colisiona.
 	listaCachengues.some(function(cachengue){
 		// LONGITUD ES X, LATITUD ES Y 
 		// El segundo decimal es 1.1 kilometro. (0.01)
@@ -583,7 +588,7 @@ function validarRadio(circulo){
 					var distRadioCachengue = "0"+distRadioCachengue;
 				}
 				var distRadioCachengue = "0.00"+distRadioCachengue;
-				var distRadioCachengue = parseFloat(distRadioCachengue)*1.1;
+				var distRadioCachengue = parseFloat(distRadioCachengue)/1.1;
 
 				// CIRCULO ACTUAL
 				// Formateo una variable para pasar los metros del radio del circulo a crear a numero de coordenada.
@@ -592,16 +597,45 @@ function validarRadio(circulo){
 					var distRadioCirculo = "0"+distRadioCirculo;
 				}
 				var distRadioCirculo = "0.00"+distRadioCirculo;
-				var distRadioCirculo = parseFloat(distRadioCirculo)*1.1;
+				var distRadioCirculo = parseFloat(distRadioCirculo)/1.1;
 
 				// Sumo ambos radios.
 				// Los circulos no deberian estar a menos de 5 metros cada uno, es decir, 0.00005
-				var distTotal = distRadioCirculo + distRadioCachengue + 0.00004;
+
+				var distTotal = distRadioCirculo + distRadioCachengue+ 0.00005;
+
+				
+
 
 				// Ahora se fija si alguno pasa la distancia permitida por LATITUD.
 				if (Math.abs(circulo.center.lat() - cachengue.center.lat()) < distTotal) {
 					// Ahora se fija si alguna pasa la distancia permitida por LONGITUD.
 					if (Math.abs(circulo.center.lng() - cachengue.center.lng()) < distTotal) {
+
+
+						/*						
+						console.log("Radio circulo Nuevo:");
+						console.log(distRadioCirculo);
+						console.log("Radio circulo nuevo");
+						console.log(circulo.radius);
+						console.log();
+
+						console.log("Radio circulo puesto:");
+						console.log(distRadioCachengue);
+						console.log("Radio circulo puesto");
+						console.log(cachengue.radius);
+						console.log();
+						console.log("Latitud del nuevo:");
+						console.log(circulo.center.lat());
+						console.log("Latitud del puesto:");
+						console.log(cachengue.center.lat());
+						console.log("Dist entre ambos sobre el eje Y:");
+						console.log((Math.abs(circulo.center.lat() - cachengue.center.lat())));
+						console.log("Dist Total minima");
+						console.log(distTotal);
+
+						*/
+
 						// Si entra aca es porque hay un circulo demasiado cerca.
 						$("#footerErrores").children().hide(); 
 						$("#circuloCercanoError").fadeIn();
