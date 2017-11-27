@@ -123,8 +123,8 @@ class Cachengue extends dbAbstractModel{
 		$this->consultaSimple();
     }
 
-    // Intento hacer la funcion del update //
 
+    // Intento hacer la funcion del update //
     public function updateCachengue($datos) {
 
     	foreach ($datos as $campo => $valor) {
