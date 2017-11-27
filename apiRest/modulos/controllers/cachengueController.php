@@ -179,6 +179,9 @@ function cercania($point1_lat, $point1_long, $radio_km) {
 	 $unit = 'km';
 	 $decimals = 4;
 
+	 $posCachengue = new Cachengue();
+	 $posCachengueX = $posCachengue->getPosCachengue(); 
+
 
 	$degrees = rad2deg(acos((sin(deg2rad($point1_lat))*sin(deg2rad($point2_lat))) + (cos(deg2rad($point1_lat))*cos(deg2rad($point2_lat))*cos(deg2rad($point1_long-$point2_long)))));
  

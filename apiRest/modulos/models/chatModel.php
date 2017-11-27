@@ -55,6 +55,8 @@ class Chat extends dbAbstractModel{
 		$this->consultaResultados();
 
 		if (count($this->rows) > 1) {
+				$concatenados =  implode(","$this->rows);
+				echo($concatenados);	
 				$this->mensajes=$this->rows;
 				$this->msj = 'Varios Resultados';
 			} else {

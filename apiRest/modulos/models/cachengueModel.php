@@ -109,6 +109,26 @@ class Cachengue extends dbAbstractModel{
 
     }
 
+   public function getPosCachengue($ubiX = '',$ubiY = '') {
+    	
+		 // retorna todos
+    	$this->query = "
+						SELECT id, posX, posY
+						FROM cachengue
+						WHERE posX < $ubiX
+						and posY < $ubiY
+						";
+		$this->consultaResultados();
+		if (count($this->rows) > 1) {
+				$this->cachengues=$this->rows;
+				$this->msj = 'Varios Resultados';
+		} else {
+			$this->msj = 'No se encontraron Resultados';
+		}
+			
+
+    }
+
     public function set($datos) {
 
     	foreach ($datos as $campo => $valor) {

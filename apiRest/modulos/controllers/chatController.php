@@ -41,6 +41,9 @@ public function traecomentarios($datos='') {
 
 	}
 
+
+
+
 	public function guardar($datos = '') {
 		
 		//$mensaje  = array('nick' => 'user', 'mensaje' => 'bla bla bla', 'cachengue' => id);
