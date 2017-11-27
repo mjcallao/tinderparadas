@@ -123,6 +123,23 @@ class Cachengue extends dbAbstractModel{
 		$this->consultaSimple();
     }
 
+    // Intento hacer la funcion del update //
+
+    public function updateCachengue($datos) {
+
+    	foreach ($datos as $campo => $valor) {
+			$$campo = $valor;
+		}
+		$this->query = "
+			UPDATE Cachengue
+			SET (nombre=$nombre, posX=$posX, posY=$posY, radio=$radio, activa=$activa, tipo=$tipo, comentario=$comentario, diasActivo=$diasActivo, horaIncio=$horaIncio, horaFin=horaFin$, usuariosMinimos=$usuariosMinimos, usuariosActivos=$usuariosActivos)
+			WHERE idCachengue = $idCachengue
+			";
+
+		$this->consultaSimple();
+    }
+
+
     
     // Actualizar Usuario -por ahra lo hago solo para el comentario- @marcelo
     public function updComentario($id, $comentar) {
