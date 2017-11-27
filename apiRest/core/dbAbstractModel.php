@@ -2,10 +2,10 @@
 abstract class dbAbstractModel{
 	// Atributos
 	//private static $host =  'desarrolloupe.syte.net';
-	private static $host =  'localhost';//'desarrolloupe.syte.net';
+	private static $host =  '192.168.0.243';//'desarrolloupe.syte.net';
 	private static $port = '16329';
 	private static $usuario = 'root';
-	private static $password = '';//'CotoMjcDa1';
+	private static $password = 'CotoMjcDa1';
 	protected $dbname = 'tinderparada';
 	protected $query;
 	protected $rows = array();
