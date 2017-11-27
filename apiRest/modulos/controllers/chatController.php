@@ -27,6 +27,19 @@ class chatController {
 		}
 
 	}
+public function traecomentarios($datos='') {
+		if(isset($datos[0])) {
+			
+			$comentariosInst = new Chat();
+			$comentariosInst->getcomentarios(1);
+			
+			echo json_encode($comentariosInst->mensajes);
+
+			//$instanciaView = new VistaChat($chatInst->mensajes);
+			//$instanciaView->mostrar();
+		}
+
+	}
 
 	public function guardar($datos = '') {
 		
