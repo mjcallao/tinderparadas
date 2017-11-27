@@ -137,7 +137,6 @@
 		
 			if(is_array($arrayDatosValidos)) {
 				// instancia el modelo
-				$instCachengue = new Cachengue();
 				$instCachengue->updateCachengue($arrayDatosValidos);
 			}
 		
