@@ -367,7 +367,7 @@ $(document).ready(function(){
 					var usuariosActivos = "0";					
 					
 					// Debug
-					// var arraycosas = [nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
+					//var arraycosas = [nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
 					//console.log(arraycosas);
 
 					// Valida que el radio no toque otros circulos y no sea mayor a 3 cuadras.
@@ -404,6 +404,7 @@ $(document).ready(function(){
 			}
 			else
 			{
+				///////// ENTRA SI ES UN CIRCULO EXISTENTE /////////
 				console.log("Es uno existente");
 
 				if (validarCampos()) 
@@ -494,6 +495,8 @@ $(document).ready(function(){
 					// Valor del ID
 					var idCachengue=puntoAEditar[0].idCachengue;
 					console.log(puntoAEditar[0])
+					var arraycosas = [idCachengue, nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos];
+					console.log(arraycosas);
 
 					if (validarRadio(puntoAEditar[0])) {
 						console.log("mando ajax");
@@ -673,7 +676,6 @@ function validarRadio(circulo){
 		return false;
 	}
 
-	console.log("asadf");
 	var resultado = true;
 
 	var nuevaLista = listaCachengues;

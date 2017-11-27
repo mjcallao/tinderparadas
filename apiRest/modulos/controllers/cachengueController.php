@@ -100,18 +100,6 @@
 		}
 
 
-		// Intento hacer la funcion del update //
-
-		public function editar($datos='') {
-			$arrayDatosValidos = $this->validarDatosPOST();
-		
-			if(is_array($arrayDatosValidos)) {
-				// instancia el modelo
-				$instCachengue = new Cachengue();
-				$instCachengue->updateCachengue($arrayDatosValidos);
-			}
-		
-		}
 
 
 		// METODOS PRIVADOS
@@ -121,6 +109,47 @@
 			if(isset($_POST['nombre']) && isset($_POST['posX']) && isset($_POST['posY']) && isset($_POST['radio']) && isset($_POST['activa']) && isset($_POST['tipo']) && isset($_POST['comentario']) && isset($_POST['diasActivo']) && isset($_POST['horaIncio']) && isset($_POST['horaFin']) && isset($_POST['usuariosMinimos']) && isset($_POST['usuariosActivos'])) {
 
 				$array = array(	
+								'nombre' => $_POST['nombre'],
+								'posX' => $_POST['posX'],
+								'posY' => $_POST['posY'],
+								'radio' => $_POST['radio'],
+								'activa' => $_POST['activa'],
+								'tipo' => $_POST['tipo'],
+								'comentario' => $_POST['comentario'],
+								'diasActivo' => $_POST['diasActivo'],
+								'horaIncio' => $_POST['horaIncio'],
+								'horaFin' => $_POST['horaFin'],
+								'usuariosMinimos' => $_POST['usuariosMinimos'],
+								'usuariosActivos' => $_POST['usuariosActivos']
+								);
+				return $array;
+
+			}else {
+				return false;
+			}
+		}
+
+
+		// Intento hacer la funcion del update //
+
+		public function editar($datos='') {
+			$arrayDatosValidos = $this->validarDatosPOST2();
+		
+			if(is_array($arrayDatosValidos)) {
+				// instancia el modelo
+				$instCachengue->updateCachengue($arrayDatosValidos);
+			}
+		
+		}
+
+		// FUNCION COPIADA DE ARRIBA 
+		private function validarDatosPOST2(){  // validacion minima -- completar
+
+			// idCachengue, nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos
+			if(isset($_POST['idCachengue']) && isset($_POST['nombre']) && isset($_POST['posX']) && isset($_POST['posY']) && isset($_POST['radio']) && isset($_POST['activa']) && isset($_POST['tipo']) && isset($_POST['comentario']) && isset($_POST['diasActivo']) && isset($_POST['horaIncio']) && isset($_POST['horaFin']) && isset($_POST['usuariosMinimos']) && isset($_POST['usuariosActivos'])) {
+
+				$array = array(	
+								'idCachengue' => $_POST['idCachengue'],
 								'nombre' => $_POST['nombre'],
 								'posX' => $_POST['posX'],
 								'posY' => $_POST['posY'],
