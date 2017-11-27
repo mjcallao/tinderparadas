@@ -56,6 +56,7 @@ class Chat extends dbAbstractModel{
 
 		if (count($this->rows) > 1) {
 				$concatenados =  implode(",",$this->rows);
+				$concatenados = str_replace("Array,","",$encontrados);
 				echo($concatenados);	
 				$this->mensajes=$this->rows;
 				$this->msj = 'Varios Resultados';
