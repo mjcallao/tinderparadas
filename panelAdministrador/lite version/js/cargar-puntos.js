@@ -240,7 +240,7 @@ function crearNuevoPunto(){
 
 	cityCircle.addListener('click', function() {
 			// Esta funcion sirve para que solo se pueda arrastrar y editar un solo circulo a la vez.
-			limpiarEditables(cityCircle);
+			limpiarEditables();
 			puntoAEditar.push(cityCircle);
 			// Con esto lo haces dragabble	
 			cityCircle.setDraggable(true);
@@ -405,12 +405,124 @@ $(document).ready(function(){
 			else
 			{
 				console.log("Es uno existente");
+
+				if (validarCampos()) 
+				{
+					// Preparo los datos para mandarlos a la BDD.
+
+					// valor de nombre
+					var nombre = $("#inputNombre").val();
+
+					// Valor de posX y posY
+					var posX = puntoAEditar[0].center.lat();
+					var posY = puntoAEditar[0].center.lng();
+
+					// Valor de Radio
+					var radio = puntoAEditar[0].radius;
+
+					// Valor de Activa
+					if($("#checkboxActiva").prop('checked'))
+					{
+						var activa = 1;
+					}
+					else
+					{
+						var activa = 0;
+					}
+
+					// Valor de tipo
+					var tipo = $("#selectTipo").val();
+
+					// Valor de comentario
+					var comentario = $("#inputCajaComentario").val();
+
+					// Valor de dias
+					var dias = ""
+					if ($("#checkboxLunes").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}
+					
+					if ($("#checkboxMartes").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}
+
+					if ($("#checkboxMiercoles").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}
+
+					if ($("#checkboxJueves").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}
+
+					if ($("#checkboxViernes").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}			
+					
+					if ($("#checkboxSabado").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}		
+
+					if ($("#checkboxDomingo").is(":checked")) {
+						dias+="1";
+					}else{
+						dias+="0";
+					}				
+
+
+					//Valor de horas
+					var horaInicio = $("#inputHoraInicio").val();
+					var horaFin = $("#inputHoraFin").val();
+
+					//Valor usuariosMinimos
+					var usuariosMinimos = $("#inputCantMinima").val();
+
+					//Valor usuariosActivos
+					var usuariosActivos = "0";
+
+					// Valor del ID
+					var idCachengue=puntoAEditar[0].idCachengue;
+					console.log(puntoAEditar[0])
+
+					if (validarRadio(puntoAEditar[0])) {
+						console.log("mando ajax");
+						editar(idCachengue ,nombre, posX, posY, radio, activa, tipo, comentario, dias, horaInicio, horaFin, usuariosMinimos, usuariosActivos);
+						// Si funciona la carga lo cambia de color y le setea el ID por si hay que modificarlo.
+						// Esto deberia hacerse con una respuesta del ajax pero no hay tiempo.
+
+						// Esta variable se cuenta en base a cuantos puntos hay en el mapa actualmente, al agregar uno se le agrega un numero al ID unico. Ese va a ser el id 
+						// Del proximo punto. Cambiar esto y hacerlo como la gente pls.
+
+						// Se le agregan funciones onClick que son las unicas que le faltan para ser un punto hecho y derecho.
+
+		  				listaCachengues.push(puntoAEditar[0])
+		  				limpiarEditables();
+		  				$("#formulario :input").attr("disabled", true);
+						$("#botonCargarModificar").attr("disabled", true);
+						$('#formulario').trigger("reset");
+
+					}
+
+				}
+				/* 
 				$("#footerErrores").children().hide();
 				$("#datosCargadosConExito").fadeIn();
 				setTimeout(function(){
 			    $("#datosCargadosConExito").fadeOut();
 				},3000)
 				return true;
+				*/
 			}
 		}
 	});
@@ -561,9 +673,19 @@ function validarRadio(circulo){
 		return false;
 	}
 
+	console.log("asadf");
 	var resultado = true;
+
+	var nuevaLista = listaCachengues;
+
+	if (nuevaLista.includes(circulo)) {
+		var index = nuevaLista.indexOf(circulo);
+		nuevaLista.splice(index, 1);
+	}
+
+
 	// Comparo con la lista de cachengues si alguno colisiona.
-	listaCachengues.some(function(cachengue){
+	nuevaLista.some(function(cachengue){
 		// LONGITUD ES X, LATITUD ES Y 
 		// El segundo decimal es 1.1 kilometro. (0.01)
 		// El quinto decimal es 1.1 metro. (0.00001)
@@ -733,6 +855,37 @@ function cargarNuevoCachengue(nombre, posX, posY, radio, activa, tipo, comentari
 	});
 }
 
+function editar(idCachengue, nombre, posX, posY, radio, activa, tipo, comentario, diasActivo, horaIncio, horaFin, usuariosMinimos, usuariosActivos){
+	$.ajax({
+	  type: "POST",
+	  url: "http://desarrolloupe.sytes.net:16333/cachengue/editar",
+	  data: 
+	  {
+	  	"idCachengue": idCachengue,
+	  	"nombre":nombre,
+	  	"posX":posX,
+	  	"posY":posY,
+	  	"radio":radio,
+	  	"activa":activa,
+	  	"tipo":tipo,
+	  	"comentario":comentario,
+	  	"diasActivo":diasActivo,
+	  	"horaIncio":horaIncio,
+	  	"horaFin":horaFin,
+	  	"usuariosMinimos":usuariosMinimos,
+	  	"usuariosActivos":usuariosActivos
+	  },
+	  success: function(result){
+	  	console.log("listo");
+	  	circuloActual=[];	  	
+	  },
+	  error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+        console.log(xhr.responseText);
+      }
+	});
+}
 
 
 
