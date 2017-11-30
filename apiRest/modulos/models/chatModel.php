@@ -77,11 +77,16 @@ class Chat extends dbAbstractModel{
 
 	public function set($mensaje) {
 		
+		debug.log("$nick: " + $mensaje[0] + "\n$msj: " + $mensaje[1] + "\n$idCachengue: " + $mensaje[2]);
+
 		$nick = $mensaje[0];
 		$msj = $mensaje[1];
 		$idCachengue = $mensaje[2];
 
-		$this->query = " INSERT INTO chat (idCachengue, nick, mensaje)
+
+		//echo("<br>Dentro de set mensaje: \n nick: " + $nick + " <br>msj: " + $msj + " <br>idCachengue: " +$idCachengue);
+
+		$this->query = "INSERT INTO chat (idCachengue, nick, mensaje)
 						VALUES('$idCachengue', '$nick', '$msj');";
 		$this->consultaSimple();
 

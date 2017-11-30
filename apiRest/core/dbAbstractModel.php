@@ -1,7 +1,7 @@
 <?php
 abstract class dbAbstractModel{
 	// Atributos
-	private static $host =  'desarrolloupe.syte.net';
+	private static $host =  'desarrolloupe.sytes.net';
 	//private static $host =  '127.0.0.1';
 	//private static $host =  '192.168.0.243';//'desarrolloupe.syte.net';
 	private static $port = '16329';

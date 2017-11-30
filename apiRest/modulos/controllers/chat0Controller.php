@@ -12,7 +12,7 @@
 	/**
 	 * leer/$id : retorna los chat por el id del cachengue
 	*/
-class chatController {
+class chat0Controller {
 		
 	public function leer($datos='') {
 		if(isset($datos[0])) {
