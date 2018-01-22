@@ -1,4 +1,4 @@
-<?php
+^<?php
 
 require_once('./core/dbAbstractModel.php');
 
@@ -22,9 +22,9 @@ class Chat extends dbAbstractModel{
 		//$mensaje  = array('nick' => 'pepe', 'texto' => 'hola gente');
 		$this->query = "SELECT idCachengue, nick, mensaje 
 						FROM chat
-						WHERE idCachengue = '$id'
 						;";
-
+//WHERE idCachengue = '$id'
+						
 		$this->consultaResultados();
 
 		if (count($this->rows) > 1) {

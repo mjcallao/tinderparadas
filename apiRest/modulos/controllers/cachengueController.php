@@ -173,6 +173,7 @@
 
 function cercania($point1_lat, $point1_long, $radio_km) {
 	// Cálculo de la distancia en grados
+	//Esta es para calcular si el punto de un usuario que pedir acceso est cercano a un chat de la tabla de la bdd, luego prueba del siguiente y as sucesivamenta hasta encontrar tanta cantidad de chat que el administrador setee que un usuario puede ver en su ubicacion
 	
 	 $point2_lat;
 	 $point2_long;
